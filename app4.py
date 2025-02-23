@@ -11,10 +11,12 @@ from datetime import datetime, timedelta
 from sklearn.linear_model import LinearRegression
 from scipy.signal import argrelextrema
 from openai import OpenAI
-from config import OPENAI_API_KEY
+#from config import OPENAI_API_KEY
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # Instantiate the OpenAI client using the API key from config.py
 client = OpenAI(api_key=OPENAI_API_KEY)
 
