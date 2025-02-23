@@ -17,7 +17,9 @@ from reportlab.pdfgen import canvas
 
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-# Instantiate the OpenAI client using the API key from config.py
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY environment variable is not set!")
+from openai import OpenAI
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Parameters for stock data and technical indicators
