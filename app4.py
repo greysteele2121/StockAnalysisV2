@@ -22,6 +22,15 @@ if not OPENAI_API_KEY:
 from openai import OpenAI
 client = OpenAI(api_key=OPENAI_API_KEY)
 
+def sanitize_text(text):
+    """
+    Replaces smart quotes with standard ASCII quotes.
+    Add any additional sanitization as needed.
+    """
+    # Replace smart quotes with standard quotes
+    text = text.replace("“", "\"").replace("”", "\"")
+    return text
+
 # Parameters for stock data and technical indicators
 TICKER = 'CAT'
 START_DATE = None  # e.g., '2023-01-01'
@@ -192,6 +201,8 @@ def get_additional_insights(trend, support, resistance, pattern):
         f"The detected pattern is '{pattern}'.\n"
         "Provide a brief summary of the trading signals indicated by these metrics."
     )
+    # Sanitize the prompt to replace any non-ASCII characters (like smart quotes)
+    prompt = sanitize_text(prompt)
     try:
         response = client.chat.completions.create(
             model="chatgpt-4o-latest",
@@ -222,6 +233,8 @@ def get_chart_interpretation(symbol, data, trend, pattern, support, resistance, 
         "potential short-term trends, and key trading signals. In your analysis, emphasize the implications of the "
         "identified trend and pattern on future price movements and any potential breakout or reversal scenarios."
     )
+    # Sanitize the prompt to replace any non-ASCII characters (like smart quotes)
+    prompt = sanitize_text(prompt)
     try:
         response = client.chat.completions.create(
             model="chatgpt-4o-latest",
@@ -266,6 +279,8 @@ def get_options_strategy(symbol, trend, pattern, support, resistance, investment
         f"For each level, detail an options trade strategy (calls, puts, or spreads) including entry and exit criteria, "
         f"risk analysis, and estimated potential profit (assuming full investment is used)."
     )
+    # Sanitize the prompt to replace any non-ASCII characters (like smart quotes)
+    prompt = sanitize_text(prompt)
     try:
         response = client.chat.completions.create(
             model="chatgpt-4o-latest",
@@ -295,6 +310,8 @@ def get_equity_strategies(symbol, trend, pattern, support, resistance):
         f"risk analysis, and recommended holding timeframes.\n\n"
         f"Provide a detailed, trader-style explanation for each strategy."
     )
+    # Sanitize the prompt to replace any non-ASCII characters (like smart quotes)
+    prompt = sanitize_text(prompt)
     try:
         response = client.chat.completions.create(
             model="chatgpt-4o-latest",
